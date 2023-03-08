@@ -1,0 +1,12 @@
+.navbar {
+	background-color: #344;
+}
+
+.navbar-brand {
+	padding-left: 10px;
+}
+
+.alert {
+	margin-left: 20px;
+	margin-right: 20px;
+}

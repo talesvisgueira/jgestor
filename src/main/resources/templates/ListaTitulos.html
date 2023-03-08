@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{LayoutPadrao.html}">
+	<head>
+		<title> Lista de Título </title>
+	</head>
+   <section layout:fragment="conteudo">
+	   <div class="panel-body">
+		<table class="table table-hover table-striped" >
+			<thead  class="table-dark">
+				<th class="text-center col-md-1"> # </th>
+				<th> DESCRICAO </th>
+				<th class="text-center col-md-2"> VENCIMENTO </th>
+				<th class="text-right col-md-2"> VALOR </th>
+				<th class="text-center col-md-2"> STATUS </th>
+				<th class="col-md-1">  <a class="btn btn-link" href="/titulos/novo"> Novo Título</a> </th>
+			</thead>
+			<tbody>
+				<tr th:each ="titulo: ${titulos}">
+					<td class="text-center" th:text="${titulo.codigo}" />
+					<td th:text="${titulo.descricao}" />
+					<td class="text-center"  th:text="${{titulo.dataVencimento}}" />
+					<td class="text-right"  th:text="|R$ ${{titulo.valor}}|" />
+					<td class="text-center">
+						<span class="label"  th:text="${titulo.status.descricao}" 
+						      th:classappend="${titulo.pendente == 'PENDENTE' ? 'label-danger' : 'label-success'}" />
+					</td>
+						
+					<td class="col-md-1">
+						<a class="btn btn-link" th:href="@{/titulos/{id}(id=${titulo.codigo})}"> 
+						  <span class="glyphicon glyphicon-pencil" ></span> 
+						</a>
+						<a class="btn btn-link" data-toggle="modal" data-target="#confirmacaoExclusaoTituloModal"> 
+						  <span class="glyphicon glyphicon-remove" ></span> 
+						</a>
+					</td>
+				</tr>
+				<tr > <td class="text-center"  colspan="6" th:if="${#lists.isEmpty(titulos)}"> Nenhum título encontrado</td></tr>
+			</tbody>
+			<tfoot>
+		        <tr > <td class="table-dark" colspan="6" >  </td></tr>
+		    </tfoot>
+		    
+		</table>
+		<div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}" />
+		</div>
+		
+		<div layout:insert="~{ConfirmacaoExclusaoTitulo.html}" />
+	</div>
+	
+   </section>
+</html>
